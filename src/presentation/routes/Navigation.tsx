@@ -1,6 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import {Text, View} from 'react-native';
-import { LoanformScreen } from '../screen/loanForm/LoanFormScreen';
+import { LoanFormScreen } from '../screen/loanForm/LoanFormScreen';
 import { AmortizationPlanScreen } from '../screen/amortizationPlan/AmortizationPlanScreen';
 
 export type RootStackParams= {
@@ -18,7 +18,7 @@ export const Navigation = () => {
               headerShown: false
           }}
       >
-        <Stack.Screen name="LoanForm" component={LoanformScreen} />
+        <Stack.Screen name="LoanForm" component={LoanFormScreen} />
         <Stack.Screen name="AmortizationPlan" component={AmortizationPlanScreen} />
       </Stack.Navigator>
     );

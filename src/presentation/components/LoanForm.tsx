@@ -1,48 +1,105 @@
 import React, { useState } from 'react';
-import { Text, View, TextInput, Button } from 'react-native';
+import { Pressable, StyleSheet, Text, TextInput, View, Alert } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import { styles } from '../theme/styles';
 
 interface Props {
-  onSubmit: (data: LoanData) => void;
+  onSubmit: (details: {
+    name: string;
+    amount: number;
+    annualInterestRate: number;
+    months: number;
+    startDate: Date;
+    commisionPercentage: number;
+  }) => void;
 }
 
-interface LoanData {
-  clientName: string;
-  loanAmount: number;
-  interestRate: number;
-  term: number;
-  disbursementDate: string;
-}
-
-export const LoanForm: React.FC<Props> = ({ onSubmit }) => {
-  const [clientName, setClientName] = useState('');
-  const [loanAmount, setLoanAmount] = useState('');
-  const [interestRate, setInterestRate] = useState('');
-  const [term, setTerm] = useState('');
-  const [disbursementDate, setDisbursementDate] = useState('');
+export const LoanForm = ({ onSubmit }: Props) => {
+  const [name, setName] = useState('');
+  const [amount, setAmount] = useState('');
+  const [annualInterestRate, setAnnualInterestRate] = useState('');
+  const [months, setMonths] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [commisionPercentage, setCommisionPercentage] = useState('');
 
   const handleSubmit = () => {
-    onSubmit({
-      clientName,
-      loanAmount: parseFloat(loanAmount),
-      interestRate: parseFloat(interestRate),
-      term: parseInt(term, 10),
-      disbursementDate,
-    });
+
+    const data = {
+      name,
+      amount: parseFloat(amount),
+      annualInterestRate: parseFloat(annualInterestRate),
+      months: parseInt(months),
+      startDate: new Date(startDate),
+      commisionPercentage: parseFloat(commisionPercentage),
+    };
+
+    // Enviar datos
+    onSubmit(data);
   };
 
   return (
-    <View>
-      <Text>Client Name</Text>
-      <TextInput value={clientName} onChangeText={setClientName} />
-      <Text>Loan Amount</Text>
-      <TextInput value={loanAmount} onChangeText={setLoanAmount} keyboardType="numeric" />
-      <Text>Interest Rate</Text>
-      <TextInput value={interestRate} onChangeText={setInterestRate} keyboardType="numeric" />
-      <Text>Term (months)</Text>
-      <TextInput value={term} onChangeText={setTerm} keyboardType="numeric" />
-      <Text>Disbursement Date</Text>
-      <TextInput value={disbursementDate} onChangeText={setDisbursementDate} />
-      <Button title="Calculate" onPress={handleSubmit} />
-    </View>
+    <ScrollView style={styles.container}>
+      <Text style={styles.label}>Nombre:</Text>
+      <TextInput
+        style={styles.input}
+        value={name}
+        onChangeText={setName}
+        placeholder="Ingrese su nombre"
+        placeholderTextColor={'#676666'}
+      />
+
+      <Text style={styles.label}>Monto del préstamo:</Text>
+      <TextInput
+        style={styles.input}
+        value={amount}
+        onChangeText={setAmount}
+        keyboardType="numeric"
+        placeholder="Ingresar por ejemplo: 10000"
+        placeholderTextColor={'#676666'}
+      />
+
+      <Text style={styles.label}>Tasa de interés anual %:</Text>
+      <TextInput
+        style={styles.input}
+        value={annualInterestRate}
+        onChangeText={setAnnualInterestRate}
+        keyboardType="numeric"
+        placeholder="Ingresar por ejemplo: 10"
+        placeholderTextColor={'#676666'}
+      />
+
+      <Text style={styles.label}>Plazo en meses:</Text>
+      <TextInput
+        style={styles.input}
+        value={months}
+        onChangeText={setMonths}
+        keyboardType="numeric"
+        placeholder="Ingresar por ejemplo: 12"
+        placeholderTextColor={'#676666'}
+      />
+
+      <Text style={styles.label}>Fecha de inicio del préstamo (YYYY-MM-DD):</Text>
+      <TextInput
+        style={styles.input}
+        value={startDate}
+        onChangeText={setStartDate}
+        placeholder="Ingresar por ejemplo: 2024-07-26"
+        placeholderTextColor={'#676666'}
+      />
+
+      <Text style={styles.label}>Porcentaje de comisión:</Text>
+      <TextInput
+        style={styles.input}
+        value={commisionPercentage}
+        onChangeText={setCommisionPercentage}
+        keyboardType="numeric"
+        placeholder="Ingresar por ejemplo: 1"
+        placeholderTextColor={'#676666'}
+      />
+
+      <Pressable style={styles.button} onPress={handleSubmit}>
+        <Text style={styles.buttonText}>Calcular</Text>
+      </Pressable>
+    </ScrollView>
   );
 };
