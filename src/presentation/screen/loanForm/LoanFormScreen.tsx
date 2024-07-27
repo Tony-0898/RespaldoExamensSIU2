@@ -25,15 +25,38 @@ export const LoanFormScreen = () => {
   //const navigation = useNavigation();
   const navigation = useNavigation<StackNavigationProp<RootStackParams, 'LoanForm'>>();
 
-  const { calculation } = useLoanCalculator(
+  const { calculation, isCalculation } = useLoanCalculator(
     loanDetails?.amount || 0,
     loanDetails?.annualInterestRate || 0,
     loanDetails?.months || 0,
     loanDetails?.startDate || '', // Convertir a cadena por el error
     loanDetails?.commisionPercentage || 0,
-    isSubmit,
+    !!loanDetails,
   );
 
+  //este useEffect es para que se vaya a la siguiente pantalla
+  useEffect(() => {
+    if (!isCalculation && calculation && isSubmit) {
+      navigation.navigate('AmortizationPlan', {
+        name: loanDetails!.name,
+        amount: loanDetails!.amount,
+        annualInterestRate: loanDetails!.annualInterestRate,
+        months: loanDetails!.months,
+        startDate: loanDetails!.startDate,
+        commisionPercentage: loanDetails!.commisionPercentage,
+        monthlyPayment: calculation.monthlyPayment,
+        commision: calculation.commision,
+        totalPayment: calculation.totalPayment,
+      });
+
+      // Resetear el formulario
+      setLoanDetails(null);
+      // Resetea el estado de envío
+      setIsSubmit(false);
+    }
+  }, [isCalculation, calculation]);
+
+  //funcion para enviar el formulario
   const handleSubmit = (details: {
     name: string,
     amount: number,
@@ -43,35 +66,8 @@ export const LoanFormScreen = () => {
     commisionPercentage: number,
   }) => {
     setLoanDetails(details);
-    //se marca como true para que se ejecute el useEffect
     setIsSubmit(true);
-
-    //est if es para que se vaya a la siguiente pantalla
-    if (calculation) {
-      navigation.navigate('AmortizationPlan', {
-        name: details.name,
-        amount: details.amount,
-        annualInterestRate: details.annualInterestRate,
-        months: details.months,
-        startDate: details.startDate,
-        commisionPercentage: details.commisionPercentage,
-        monthlyPayment: calculation.monthlyPayment,
-        commision: calculation.commision,
-        totalPayment: calculation.totalPayment,
-      });
-
-      // Resetear el formulario
-      setLoanDetails(null);
-      setIsSubmit(false);
-    }
   };
-
-  useEffect(() => {
-    if (isSubmit) {
-      // Resetear isSubmitted para evitar cálculos continuos
-      setIsSubmit(false);
-    }
-  }, [calculation]);
 
   return (
     <View style={styles.container}>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View, Alert } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { styles } from '../theme/styles';
@@ -22,6 +22,25 @@ export const LoanForm = ({ onSubmit }: Props) => {
   const [startDate, setStartDate] = useState('');
   const [commisionPercentage, setCommisionPercentage] = useState('');
 
+  // Estado para habilitar o deshabilitar el botón
+  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
+
+  //logica para validar los campos
+  const validInput = () => {
+    return name !== '' &&
+      amount !== '' &&
+      annualInterestRate !== '' &&
+      months !== '' &&
+      startDate !== '' &&
+      commisionPercentage !== '';
+  };
+  //logica para actualizar el estado de los campos
+  useEffect(() => {
+    setIsButtonEnabled(validInput());
+  }, [name, amount, annualInterestRate, months, startDate, commisionPercentage]);
+
+
+  //funcion para enviar el formulario
   const handleSubmit = () => {
 
     const data = {
@@ -43,72 +62,92 @@ export const LoanForm = ({ onSubmit }: Props) => {
     setMonths('');
     setStartDate('');
     setCommisionPercentage('');
-    
+
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.label}>Nombre:</Text>
-      <TextInput
-        style={styles.input}
-        value={name}
-        onChangeText={setName}
-        placeholder="Ingrese su nombre"
-        placeholderTextColor={'#676666'}
-      />
+    <View style={styles.container}>
+      <ScrollView>
+        <Text style={styles.title}>Ingrese sus datos</Text>
+        <View style={styles.detailsContainer}>
+          <Text style={styles.label}>Nombre:</Text>
+          <TextInput
+            style={styles.input}
+            value={name}
+            onChangeText={setName}
+            placeholder="Ingrese su nombre"
+            placeholderTextColor={'#a1a1a1'}
+          />
+        </View>
 
-      <Text style={styles.label}>Monto del préstamo:</Text>
-      <TextInput
-        style={styles.input}
-        value={amount}
-        onChangeText={setAmount}
-        keyboardType="numeric"
-        placeholder="Ingresar por ejemplo: 10000"
-        placeholderTextColor={'#676666'}
-      />
+        <View style={styles.detailsContainer}>
+          <Text style={styles.label}>Monto del préstamo:</Text>
+          <TextInput
+            style={styles.input}
+            value={amount}
+            onChangeText={setAmount}
+            keyboardType="numeric"
+            placeholder="Ingresar por ejemplo: 10000"
+            placeholderTextColor={'#a1a1a1'}
+          />
+        </View>
 
-      <Text style={styles.label}>Tasa de interés anual %:</Text>
-      <TextInput
-        style={styles.input}
-        value={annualInterestRate}
-        onChangeText={setAnnualInterestRate}
-        keyboardType="numeric"
-        placeholder="Ingresar por ejemplo: 10"
-        placeholderTextColor={'#676666'}
-      />
+        <View style={styles.detailsContainer}>
+          <Text style={styles.label}>Tasa de interés anual %:</Text>
+          <TextInput
+            style={styles.input}
+            value={annualInterestRate}
+            onChangeText={setAnnualInterestRate}
+            keyboardType="numeric"
+            placeholder="Ingresar por ejemplo: 7"
+            placeholderTextColor={'#a1a1a1'}
+          />
+        </View>
 
-      <Text style={styles.label}>Plazo en meses:</Text>
-      <TextInput
-        style={styles.input}
-        value={months}
-        onChangeText={setMonths}
-        keyboardType="numeric"
-        placeholder="Ingresar por ejemplo: 12"
-        placeholderTextColor={'#676666'}
-      />
+        <View style={styles.detailsContainer}>
+        <Text style={styles.label}>Plazo en meses:</Text>
+        <TextInput
+          style={styles.input}
+          value={months}
+          onChangeText={setMonths}
+          keyboardType="numeric"
+          placeholder="Ingresar por ejemplo: 12"
+          placeholderTextColor={'#a1a1a1'}
+        />
+        </View>
 
-      <Text style={styles.label}>Fecha de inicio del préstamo (YYYY-MM-DD):</Text>
-      <TextInput
-        style={styles.input}
-        value={startDate}
-        onChangeText={setStartDate}
-        placeholder="Ingresar por ejemplo: 2024-07-26"
-        placeholderTextColor={'#676666'}
-      />
+        <View style={styles.detailsContainer}>
+        <Text style={styles.label}>Fecha de inicio del préstamo (YYYY-MM-DD):</Text>
+        <TextInput
+          style={styles.input}
+          value={startDate}
+          onChangeText={setStartDate}
+          placeholder="Ingresar por ejemplo: 2024-07-26"
+          placeholderTextColor={'#a1a1a1'}
+        />
+        </View>
 
-      <Text style={styles.label}>Porcentaje de comisión:</Text>
-      <TextInput
-        style={styles.input}
-        value={commisionPercentage}
-        onChangeText={setCommisionPercentage}
-        keyboardType="numeric"
-        placeholder="Ingresar por ejemplo: 1"
-        placeholderTextColor={'#676666'}
-      />
-
-      <Pressable style={styles.button} onPress={handleSubmit}>
-        <Text style={styles.buttonText}>Calcular</Text>
-      </Pressable>
-    </ScrollView>
+        <View style={styles.detailsContainer}>
+        <Text style={styles.label}>Porcentaje de comisión:</Text>
+        <TextInput
+          style={styles.input}
+          value={commisionPercentage}
+          onChangeText={setCommisionPercentage}
+          keyboardType="numeric"
+          placeholder="Ingresar por ejemplo: 1"
+          placeholderTextColor={'#a1a1a1'}
+        />
+        </View>
+        
+        {/* Se deshabilita el botón si no se han ingresado todos los datos */}
+        <Pressable
+          style={[styles.button, { backgroundColor: isButtonEnabled ? '#007bff' : '#d3d3d3' }]}
+          onPress={handleSubmit}
+          disabled={!isButtonEnabled}
+        >
+          <Text style={styles.buttonText}>Calcular</Text>
+        </Pressable>
+      </ScrollView>
+    </View>
   );
 };
