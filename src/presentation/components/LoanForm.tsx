@@ -9,7 +9,7 @@ interface Props {
     amount: number;
     annualInterestRate: number;
     months: number;
-    startDate: Date;
+    startDate: string;
     commisionPercentage: number;
   }) => void;
 }
@@ -29,12 +29,21 @@ export const LoanForm = ({ onSubmit }: Props) => {
       amount: parseFloat(amount),
       annualInterestRate: parseFloat(annualInterestRate),
       months: parseInt(months),
-      startDate: new Date(startDate),
+      startDate,
       commisionPercentage: parseFloat(commisionPercentage),
     };
 
     // Enviar datos
     onSubmit(data);
+
+    //limpiar los campos
+    setName('');
+    setAmount('');
+    setAnnualInterestRate('');
+    setMonths('');
+    setStartDate('');
+    setCommisionPercentage('');
+    
   };
 
   return (

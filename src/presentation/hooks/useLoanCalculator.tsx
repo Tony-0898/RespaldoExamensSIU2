@@ -5,7 +5,8 @@ export const useLoanCalculator = (
   amount: number, 
   annualInterestRate: number,
   months: number,
-  startDate: Date,
+  startDate: string,
+  //startDate: Date,
   commisionPercentage: number,
   //dependencia para que se ejecute el useEffect
   isSubmit: boolean,
@@ -19,7 +20,7 @@ export const useLoanCalculator = (
   } | null>(null);
 
   useEffect(() => {
-    //si no se ha enviado el formulario no se hace nada
+    //si no se ha enviado el formulario no se hace nada//esto es para que no se este ejecutando
     if (!isSubmit) return;
 
     //calcular la tasa de interes mensual
@@ -37,14 +38,14 @@ export const useLoanCalculator = (
     const totalPayment = monthlyPayment * months + commision;
 
     // Mostrar los resultados en la consola
-    console.log('Monto del préstamo:', amount);
-    console.log('Tasa de interés anual:', annualInterestRate);
-    console.log('Plazo en meses:', months);
-    console.log('Fecha de inicio del préstamo:', startDate);
-    console.log('Porcentaje de comisión:', commisionPercentage);
-    console.log('Cuota mensual calculada:', monthlyPayment);
-    console.log('Comisión total:', commision);
-    console.log('Pago total (cuota + comisión):', totalPayment);
+    //console.log('Monto del préstamo:', amount);
+    //console.log('Tasa de interés anual:', annualInterestRate);
+    //console.log('Plazo en meses:', months);
+    //console.log('Fecha de inicio del préstamo:', startDate);
+    //console.log('Porcentaje de comisión:', commisionPercentage);
+    //console.log('Cuota mensual calculada:', monthlyPayment);
+    //console.log('Comisión total:', commision);
+    //console.log('Pago total (cuota + comisión):', totalPayment);
 
     //actualizar el estado
     setCalculation({
