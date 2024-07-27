@@ -2,6 +2,10 @@
 #
 .DS_Store
 
+#Expocache
+.expo/
+.expo-shared/
+.expo/package-info.json
 # Xcode
 #
 build/
