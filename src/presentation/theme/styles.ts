@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
         shadowOpacity: 0.1,
         shadowRadius: 4,
         elevation: 2,
-      },
+    },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
@@ -54,20 +54,26 @@ export const styles = StyleSheet.create({
         borderRadius: 4,
         alignItems: 'center',
         marginTop: 20,
-      },
+    },
     buttonText: {
         color: '#fff',
         fontSize: 16,
     },
     button2: {
-        backgroundColor: '#007bff',
+        backgroundColor: '#fff872',
         padding: 16,
         borderRadius: 4,
         alignItems: 'center',
-        marginTop: 115,
     },
     value: {
         fontSize: 16,
         color: '#333',
-      },
+    },
+    labelB: {
+        //vinculo
+        color: '#7fb9f8',
+        fontSize: 16,
+        marginVertical: 8,
+        fontWeight: 'bold',
+    },
 });

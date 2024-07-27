@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View, Alert } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { styles } from '../theme/styles';
+import { Navigation } from '../routes/Navigation';
+import { useNavigation } from '@react-navigation/native';
 
 interface Props {
   onSubmit: (details: {
@@ -24,6 +26,9 @@ export const LoanForm = ({ onSubmit }: Props) => {
 
   // Estado para habilitar o deshabilitar el botón
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
+
+  //usar navigation para ir a la pantalla anterior
+  const navigation = useNavigation();
 
   //logica para validar los campos
   const validInput = () => {
@@ -68,7 +73,13 @@ export const LoanForm = ({ onSubmit }: Props) => {
   return (
     <View style={styles.container}>
       <ScrollView>
+
         <Text style={styles.title}>Ingrese sus datos</Text>
+
+        <Pressable onPress={() => navigation.goBack()}>
+          <Text style={styles.labelB}>Ir a inicio</Text>
+        </Pressable>
+
         <View style={styles.detailsContainer}>
           <Text style={styles.label}>Nombre:</Text>
           <TextInput
@@ -105,40 +116,40 @@ export const LoanForm = ({ onSubmit }: Props) => {
         </View>
 
         <View style={styles.detailsContainer}>
-        <Text style={styles.label}>Plazo en meses:</Text>
-        <TextInput
-          style={styles.input}
-          value={months}
-          onChangeText={setMonths}
-          keyboardType="numeric"
-          placeholder="Ingresar por ejemplo: 12"
-          placeholderTextColor={'#a1a1a1'}
-        />
+          <Text style={styles.label}>Plazo en meses:</Text>
+          <TextInput
+            style={styles.input}
+            value={months}
+            onChangeText={setMonths}
+            keyboardType="numeric"
+            placeholder="Ingresar por ejemplo: 12"
+            placeholderTextColor={'#a1a1a1'}
+          />
         </View>
 
         <View style={styles.detailsContainer}>
-        <Text style={styles.label}>Fecha de inicio del préstamo (YYYY-MM-DD):</Text>
-        <TextInput
-          style={styles.input}
-          value={startDate}
-          onChangeText={setStartDate}
-          placeholder="Ingresar por ejemplo: 2024-07-26"
-          placeholderTextColor={'#a1a1a1'}
-        />
+          <Text style={styles.label}>Fecha de inicio del préstamo (YYYY-MM-DD):</Text>
+          <TextInput
+            style={styles.input}
+            value={startDate}
+            onChangeText={setStartDate}
+            placeholder="Ingresar por ejemplo: 2024-07-26"
+            placeholderTextColor={'#a1a1a1'}
+          />
         </View>
 
         <View style={styles.detailsContainer}>
-        <Text style={styles.label}>Porcentaje de comisión:</Text>
-        <TextInput
-          style={styles.input}
-          value={commisionPercentage}
-          onChangeText={setCommisionPercentage}
-          keyboardType="numeric"
-          placeholder="Ingresar por ejemplo: 1"
-          placeholderTextColor={'#a1a1a1'}
-        />
+          <Text style={styles.label}>Porcentaje de comisión:</Text>
+          <TextInput
+            style={styles.input}
+            value={commisionPercentage}
+            onChangeText={setCommisionPercentage}
+            keyboardType="numeric"
+            placeholder="Ingresar por ejemplo: 1"
+            placeholderTextColor={'#a1a1a1'}
+          />
         </View>
-        
+
         {/* Se deshabilita el botón si no se han ingresado todos los datos */}
         <Pressable
           style={[styles.button, { backgroundColor: isButtonEnabled ? '#007bff' : '#d3d3d3' }]}
